@@ -16,4 +16,4 @@ A few resources to get you started if this is your first Flutter project:
 You may not be able to hear the audio in the appetize hosted app on the web, therefore I
 have put a link to a screen record of the app showcasing this feature. The link is below
 
-- [App Screen Record Video](https://docs.flutter.dev/get-started/codelab)
+- [App Screen Record Video](https://drive.google.com/file/d/128rdSTn1tMpItIEJq46qDbx8tsmmnHwW/view?usp=drivesdk)
