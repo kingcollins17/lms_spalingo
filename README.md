@@ -1,16 +1,19 @@
 # lms_spalingo
 
-A new Flutter project.
+LMS STAGE 6 PROMOTIONAL TASK
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+A spanish word pronounciation app
+
+### Features
+- Play spanish words and listen to their pronounications
+- Upload your own words along with their pronounciations
 
 A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### NOTE:
+You may not be able to hear the audio in the appetize hosted app on the web, therefore I
+have put a link to a screen record of the app showcasing this feature. The link is below
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [App Screen Record Video](https://docs.flutter.dev/get-started/codelab)

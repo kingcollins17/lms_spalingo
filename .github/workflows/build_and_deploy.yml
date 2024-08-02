@@ -40,7 +40,7 @@ jobs:
         uses: appetizeio/github-action-appetize@v1.0.2
         with:
           apiToken: ${{ secrets.APPETIZE_API_TOKEN }}
-          # publicKey: ${{ secrets.APPETIZE_PUBLIC_KEY }}
+          publicKey: ${{ secrets.APPETIZE_PUBLIC_KEY }}
           appFile: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
           platform: 'android'
           
