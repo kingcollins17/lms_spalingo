@@ -32,7 +32,7 @@ class _UploadScreenState extends State<UploadScreen> {
     if (filePath != null && word != null && word!.isNotEmpty) {
       final controller = Get.find<PronounciationController>();
       controller.add(word!, DeviceFileSource(filePath!));
-      Get.snackbar('Success', '${word} been added successfully');
+      Get.snackbar('Success', '${word} has been added successfully');
 
       Future.delayed(Duration(seconds: 4), () => Get.off(PronounciationScreen()));
       

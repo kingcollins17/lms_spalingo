@@ -11,19 +11,15 @@ class PronounciationController extends GetxController {
 
   final currentTab = 'Words'.obs;
 
-  final isPlaying = false.obs;
+  ///The word that is being played
+  String? isPlaying;
 
   final words = <String, Source>{
-    //'One': AssetSource('one.wav'),
-    //'Two': AssetSource('two.wav'),
-    //'Three': AssetSource('three.wav'),
-    //'Four': AssetSource('four.wav'),
-    //'Five': AssetSource('five.wav'),
-    //'Six': AssetSource('six.wav'),
-    //'Seven': AssetSource('seven.wav'),
-    //'Eight': AssetSource('eight.wav'),
-    //'Nine': AssetSource('nine.wav'),
-    //'Ten': AssetSource('ten.wav'),
+    'Educacion - Education': AssetSource('Education.mp3'),
+    'Intercambio - Exchange': AssetSource('Exchange.mp3'),
+    'Hola - Hello': AssetSource('Hello.mp3'),
+    'Bienvenido - Welcome': AssetSource('Welcome.mp3'),
+    'Sabiduria - Wisdom': AssetSource('Wisdom.mp3'),
   }.obs;
 
   final numbers = <String, Source>{
@@ -42,8 +38,12 @@ class PronounciationController extends GetxController {
   Future<void> pronounceWord(String word) async {
     assert(words.containsKey(word));
     if (words.containsKey(word)) {
-      isPlaying.value = true;
-      return _player.play(words[word]!).whenComplete(() => isPlaying.value = false);
+      isPlaying = word;
+      update();
+      await _player.play(words[word]!);
+      await Future.delayed(Duration(seconds: 2));
+      isPlaying = null;
+      update();
     }
   }
 
@@ -51,19 +51,25 @@ class PronounciationController extends GetxController {
     assert(numbers.containsKey(number));
 
     if (numbers.containsKey(number)) {
-      isPlaying.value = true;
-      return _player.play(numbers[number]!).whenComplete(() => isPlaying.value = false);
+      isPlaying = number;
+      update();
       
+      await _player.play(numbers[number]!);
+      await Future.delayed(Duration(seconds: 2));
+
+      isPlaying = null;
+      update();
     }
   }
 
-
   Future<void> addWord(String word, Source audio) async {
     words.putIfAbsent(word, () => audio);
+    update();
   }
 
   Future<void> addNumber(String number, Source audio) async {
     numbers.putIfAbsent(number, () => audio);
+    update();
   }
 
   Future<void> add(String word, Source audio) async {
@@ -73,5 +79,8 @@ class PronounciationController extends GetxController {
       await addNumber(word, audio);
   }
 
-  void switchTab(String newTab) => currentTab.value = newTab;
+  void switchTab(String newTab) {
+    currentTab.value = newTab;
+    update();
+  }
 }

@@ -17,8 +17,9 @@ class PronounciationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: Image.asset('asset/logo.png', width: 20),
-        title: Text('Spanlingo', style: TextStyle()),
+        title: Text('Spalingo', style: TextStyle()),
       ),
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(UploadScreen()),
         backgroundColor: Colors.lightBlue,
@@ -34,23 +35,46 @@ class PronounciationScreen extends StatelessWidget {
                 onTabChanged: controller.switchTab,
               );
             }),
-            Obx(() {
-              final currentTabIsWords = controller.currentTab == 'Words';
-              return Column(
-                children: [
-                  //Text(controller.isPlaying.toString()),
-                  ...currentTabIsWords
-                      ? controller.words.keys.map((word) => _PronounciationTile(
-                            wordOrNumber: word,
-                            isWord: true,
-                          ))
-                      : controller.numbers.keys.map((number) => _PronounciationTile(
-                            wordOrNumber: number,
-                            isWord: false,
-                          ))
-                ],
-              );
+            spacer(),
+            GetBuilder<PronounciationController>(builder: (ctrl) {
+              final currentTabIsWords = ctrl.currentTab == 'Words';
+              final words = ctrl.words.keys.toList();
+              final numbers = ctrl.numbers.keys.toList();
+              return currentTabIsWords
+                  ? Column(
+                      key: ValueKey('words'),
+                      children: List.generate(
+                          words.length,
+                          (index) => _PronounciationTile(
+                                wordOrNumber: words[index],
+                                isWord: true,
+                              )))
+                  : Column(
+                      key: ValueKey('numbers'),
+                      children: List.generate(
+                          numbers.length,
+                          (index) => _PronounciationTile(
+                                wordOrNumber: numbers[index],
+                                isWord: false,
+                              )));
             })
+
+            //Obx(() {
+            //  final currentTabIsWords = controller.currentTab == 'Words';
+            //  final numbers = controller.numbers.keys;
+            //  return Column(
+            //    children: [
+            //      //Text(controller.isPlaying.toString()),
+            //      ...currentTabIsWords
+            //          ? controller.words.keys.map((word) => _PronounciationTile(
+            //                wordOrNumber: word,
+            //                isWord: true,
+            //              ))
+            //          : numbers.map((value) => _PronounciationTile(wordOrNumber: value, isWord: false))
+
+            //    ],
+            //  );
+            //})
           ],
         ),
       ),
@@ -115,31 +139,38 @@ class _PronounciationTile extends GetWidget<PronounciationController> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: playAudio,
-      child: Container(
-        width: screen(context).width,
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        margin: EdgeInsets.symmetric(vertical: 10),
-        decoration:
-            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6), boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            offset: Offset(0, 2),
-            color: Color(0x77111111),
-          )
-        ]),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              wordOrNumber,
-              style: TextStyle(fontSize: 16),
+    return GetBuilder<PronounciationController>(
+      builder: (ctrl) {
+        //Whether this word is being played
+        final isPlaying = ctrl.isPlaying == wordOrNumber;
+
+        return GestureDetector(
+          onTap: playAudio,
+          child: Container(
+            width: screen(context).width,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+            margin: EdgeInsets.symmetric(vertical: 10),
+            decoration:
+                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6), boxShadow: [
+              BoxShadow(
+                blurRadius: 3,
+                offset: Offset(0, 2),
+                color: Color(0x22111111),
+              )
+            ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  wordOrNumber,
+                  style: TextStyle(fontSize: 18),
+                ),
+                Icon(!isPlaying ? Icons.play_circle: Icons.stop_rounded, size: 35),
+              ],
             ),
-            Icon(Icons.play_circle, size: 25),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 }
